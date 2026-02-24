@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Integration Example - Supabase Backend</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #E2E8F0;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0066CC;
+    }
+    .honeypot {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+    }
+    button {
+      background: #0066CC;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #0052A3;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .error {
+      color: #E21A2C;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .success {
+      background: #48BB78;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .referral-link {
+      background: #F7FAFC;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scholarship Application</h1>
+  <p>Frontend Integration Example for Supabase Backend</p>
+
+  <form id="applicationForm">
+    <!-- Parent Info -->
+    <div class="form-group">
+      <label for="parentFirstName">Parent First Name *</label>
+      <input type="text" id="parentFirstName" name="parentFirstName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="parentLastName">Parent Last Name *</label>
+      <input type="text" id="parentLastName" name="parentLastName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="parentEmail">Parent Email *</label>
+      <input type="email" id="parentEmail" name="parentEmail" required>
+      <div id="emailError" class="error"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="parentPhone">Parent Phone *</label>
+      <input type="tel" id="parentPhone" name="parentPhone" placeholder="(555) 123-4567" required>
+      <div id="phoneError" class="error"></div>
+    </div>
+
+    <!-- Kid Info -->
+    <div class="form-group">
+      <label for="kidFirstName">Kid's First Name *</label>
+      <input type="text" id="kidFirstName" name="kidFirstName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="kidAge">Kid's Age *</label>
+      <select id="kidAge" name="kidAge" required>
+        <option value="">Select age</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="ninjaExperience">Has your kid tried ninja training before?</label>
+      <select id="ninjaExperience" name="ninjaExperience">
+        <option value="">Select...</option>
+        <option value="yes">Yes, they love it!</option>
+        <option value="no">No, but they're excited to try</option>
+        <option value="unsure">Not sure, but they're active</option>
+      </select>
+    </div>
+
+    <!-- Essay -->
+    <div class="form-group">
+      <label for="essay">Tell us your story (50-300 characters) *</label>
+      <textarea id="essay" name="essay" rows="5" required></textarea>
+      <div id="essayCount">0 / 300</div>
+      <div id="essayError" class="error"></div>
+    </div>
+
+    <!-- Source -->
+    <div class="form-group">
+      <label for="heardAbout">How did you hear about us?</label>
+      <select id="heardAbout" name="heardAbout">
+        <option value="">Select...</option>
+        <option value="facebook">Facebook/Instagram</option>
+        <option value="google">Google Search</option>
+        <option value="friend">Friend/Family Referral</option>
+        <option value="current_family">Current/Past USA Ninja Family</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <!-- Honeypot (hidden from users) -->
+    <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+
+    <button type="submit" id="submitBtn">Submit Application</button>
+    <div id="formError" class="error"></div>
+  </form>
+
+  <div id="successMessage" style="display: none;">
+    <div class="success">
+      <h2>🎉 Application Submitted!</h2>
+      <p>Thank you for applying! Check your email for confirmation.</p>
+      <div class="referral-link">
+        <strong>Your referral link:</strong><br>
+        <span id="referralUrl"></span>
+        <br><br>
+        <button onclick="copyReferralLink()">Copy Link</button>
+      </div>
+      <p>Share this link with friends! Every friend who applies = bonus entry.</p>
+    </div>
+  </div>
+
+  <script>
+    // =====================================================
+    // CONFIGURATION
+    // =====================================================
+    const SUPABASE_URL = 'https://YOUR_PROJECT_REF.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+    const SUBMIT_ENDPOINT = `${SUPABASE_URL}/functions/v1/submit`;
+
+    // Track form load time for submission timer
+    const formLoadTime = Date.now();
+
+    // =====================================================
+    // FORM VALIDATION
+    // =====================================================
+
+    // Email validation
+    document.getElementById('parentEmail').addEventListener('blur', function() {
+      const email = this.value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const errorDiv = document.getElementById('emailError');
+      
+      if (!emailRegex.test(email)) {
+        errorDiv.textContent = 'Please enter a valid email address';
+      } else {
+        errorDiv.textContent = '';
+      }
+    });
+
+    // Essay character counter
+    document.getElementById('essay').addEventListener('input', function() {
+      const length = this.value.length;
+      const counter = document.getElementById('essayCount');
+      const errorDiv = document.getElementById('essayError');
+      
+      counter.textContent = `${length} / 300`;
+      
+      if (length < 50) {
+        counter.style.color = '#E21A2C';
+        errorDiv.textContent = `Need ${50 - length} more characters`;
+      } else if (length > 300) {
+        counter.style.color = '#E21A2C';
+        errorDiv.textContent = `${length - 300} characters over limit`;
+      } else {
+        counter.style.color = '#48BB78';
+        errorDiv.textContent = '';
+      }
+    });
+
+    // =====================================================
+    // FORM SUBMISSION
+    // =====================================================
+
+    document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const formError = document.getElementById('formError');
+      
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      formError.textContent = '';
+      
+      try {
+        // Calculate submission time
+        const submissionTimeMs = Date.now() - formLoadTime;
+        
+        // Get referral code from URL (if exists)
+        const urlParams = new URLSearchParams(window.location.search);
+        const referredByCode = urlParams.get('ref') || null;
+        
+        // Build payload
+        const formData = new FormData(e.target);
+        const payload = {
+          parentFirstName: formData.get('parentFirstName'),
+          parentLastName: formData.get('parentLastName'),
+          parentEmail: formData.get('parentEmail'),
+          parentPhone: formData.get('parentPhone'),
+          kidFirstName: formData.get('kidFirstName'),
+          kidAge: parseInt(formData.get('kidAge')),
+          ninjaExperience: formData.get('ninjaExperience') || null,
+          essay: formData.get('essay'),
+          heardAbout: formData.get('heardAbout') || null,
+          referredByCode: referredByCode,
+          submissionTimeMs: submissionTimeMs,
+          website: formData.get('website') // Honeypot
+        };
+        
+        // Submit to Supabase
+        const response = await fetch(SUBMIT_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify(payload)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Hide form, show success message
+          document.getElementById('applicationForm').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('referralUrl').textContent = result.referralUrl;
+          
+          // Store referral code for later use
+          localStorage.setItem('myReferralCode', result.referralCode);
+          
+          // Scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // Show error
+          formError.textContent = result.error || 'Submission failed. Please try again.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Application';
+        }
+        
+      } catch (error) {
+        console.error('Submission error:', error);
+        formError.textContent = 'Network error. Please check your connection and try again.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
+    });
+
+    // =====================================================
+    // COPY REFERRAL LINK
+    // =====================================================
+
+    function copyReferralLink() {
+      const referralUrl = document.getElementById('referralUrl').textContent;
+      
+      navigator.clipboard.writeText(referralUrl).then(() => {
+        alert('Referral link copied to clipboard!');
+      }).catch(err => {
+        console.error('Copy failed:', err);
+        // Fallback: select text
+        const range = document.createRange();
+        range.selectNode(document.getElementById('referralUrl'));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+      });
+    }
+
+    // =====================================================
+    // LOAD REFERRAL STATS (if returning user)
+    // =====================================================
+
+    window.addEventListener('load', function() {
+      const myReferralCode = localStorage.getItem('myReferralCode');
+      
+      if (myReferralCode) {
+        // Show referral stats banner (optional)
+        console.log('Welcome back! Your referral code:', myReferralCode);
+        
+        // Fetch and display referral stats
+        fetch(`${SUPABASE_URL}/functions/v1/referral-stats?code=${myReferralCode}`, {
+          headers: {
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        })
+        .then(res => res.json())
+        .then(stats => {
+          console.log('Your referral stats:', stats);
+          // Display stats in UI (optional)
+        });
+      }
+    });
+  </script>
+</body>
+</html>
