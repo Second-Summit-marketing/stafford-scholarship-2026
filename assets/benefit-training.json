@@ -1,0 +1,19 @@
+{
+  "prompt": "Professional coach spotting young child on balance beam obstacle at ninja gym, safety mat below, encouraging supportive atmosphere, bright professional gym setting, trust and training, professional sports photography",
+  "negative_prompt": "dark, scary, falling, injury, crying, angry coach",
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "800x600",
+  "num_images": 1,
+  "seed": 289974023,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "ae18c120-eca5-4a26-9cf7-b8df5698cc24",
+  "generation_time_s": 2.4,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/benefit-training.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc312/zl6M5EYuX9ud-h7NRgE2a.jpg"
+  ]
+}

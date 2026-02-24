@@ -1,0 +1,19 @@
+{
+  "prompt": "Group of diverse kids ages 6-12 in team huddle, high-fiving and laughing together at ninja gym, bright colorful obstacles in background, friendship and teamwork, energetic happy atmosphere, professional photography",
+  "negative_prompt": "dark, sad, lonely, injury, fighting, crying",
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "800x600",
+  "num_images": 1,
+  "seed": 748770147,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "5d3a2ce4-919a-4bf6-880f-d9388b88973c",
+  "generation_time_s": 2.4,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/benefit-friends.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc311/GViB5G_LYrFbEkJzQ6iUI.jpg"
+  ]
+}

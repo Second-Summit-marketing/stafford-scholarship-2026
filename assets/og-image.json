@@ -1,0 +1,19 @@
+{
+  "prompt": "Facebook Open Graph image for scholarship contest: Bold headline 'Win a FREE Summer Camp Week' over energetic ninja obstacle course background, kids training, red white and blue colors, professional social media graphic",
+  "negative_prompt": null,
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "1200x630",
+  "num_images": 1,
+  "seed": 1478462871,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "a336b4ef-b54c-4a32-b053-e498d794097e",
+  "generation_time_s": 4.5,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/og-image.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc314/iwyG_By_kauNxoox-YHcK.jpg"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "prompt": "Kids ages 6-12 climbing colorful ninja warrior warped wall obstacle, bright gym interior, energetic action shot, child reaching top with determination, professional photography, vibrant colors, motivational sports photography",
+  "negative_prompt": "dark, scary, injury, empty gym, sad, adult, blurry",
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "1920x1080",
+  "num_images": 1,
+  "seed": 1270504380,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "96e109b5-b819-4501-82e7-08c1c3c2a6cb",
+  "generation_time_s": 4.5,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/hero-image.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc310/8azDe0zvt-Ke6eNWI2ViO.jpg"
+  ]
+}

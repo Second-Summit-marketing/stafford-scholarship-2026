@@ -1,0 +1,19 @@
+{
+  "prompt": "Wide shot of energetic kids at ninja warrior obstacle course summer camp, multiple children in action on different colorful obstacles, bright sunny gym interior, excitement and fun atmosphere, professional camp photography",
+  "negative_prompt": "dark, empty, sad, injury, abandoned, scary",
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "1920x1080",
+  "num_images": 1,
+  "seed": 1061427183,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "98ec9055-8535-4d28-a53c-56fda65d869f",
+  "generation_time_s": 4.5,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/cta-background.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc313/odgifxHxM85YAyny7iTGQ.jpg"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "prompt": "Young child successfully completing ninja warrior obstacle course, confident smile, fist pump victory pose, bright gym, other kids cheering in background, professional sports photography, inspirational",
+  "negative_prompt": "dark, scary, injury, sad, crying, falling",
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "800x600",
+  "num_images": 1,
+  "seed": 208437095,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "e63681e2-85b5-47bb-96cb-59b52ca09510",
+  "generation_time_s": 2.5,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/benefit-confidence.jpg"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc311/7LFFIjuJtXXcpp0oHrGnU.jpg"
+  ]
+}

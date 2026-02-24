@@ -1,0 +1,19 @@
+{
+  "prompt": "Simple icon for USA Ninja Challenge, letter N in bold athletic font, ninja star design element, red white blue colors, favicon sized, clean minimalist",
+  "negative_prompt": null,
+  "model": "flux-schnell",
+  "endpoint": "fal-ai/flux/schnell",
+  "size": "32x32",
+  "num_images": 1,
+  "seed": 1826812646,
+  "guidance": 0,
+  "steps": 4,
+  "request_id": "1e93cf9e-c931-4b64-8917-505e688d8fb1",
+  "generation_time_s": 6.7,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/favicon.png"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc316/SNzmWqz0g89o0_Lwo0yr-.jpg"
+  ]
+}

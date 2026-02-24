@@ -1,0 +1,19 @@
+{
+  "prompt": "Modern athletic logo for USA Ninja Challenge, bold red white and blue colors, stylized ninja warrior silhouette, dynamic action pose, professional sports brand logo design, clean minimalist, transparent background",
+  "negative_prompt": null,
+  "model": "flux-dev",
+  "endpoint": "fal-ai/flux/dev",
+  "size": "400x200",
+  "num_images": 1,
+  "seed": 781718865,
+  "guidance": 3.5,
+  "steps": 28,
+  "request_id": "bd803e58-ef34-4c80-81cf-638de5bdc2fe",
+  "generation_time_s": 4.5,
+  "images": [
+    "/root/.openclaw/workspace/dev/stafford-scholarship/assets/logo.png"
+  ],
+  "raw_image_urls": [
+    "https://v3b.fal.media/files/b/0a8fc314/911UusPNrJo_xflmYEadO.jpg"
+  ]
+}
